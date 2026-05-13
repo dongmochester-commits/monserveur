@@ -35,6 +35,9 @@ app.get("/data", (req, res) => {
     res.json(data);
 });
 
-app.listen(3000, () => {
-    console.log("Serveur lancé sur http://localhost:3000");
+// PORT compatible Replit
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log("Serveur lancé");
 });
